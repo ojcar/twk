@@ -1,0 +1,135 @@
+= TZTime[http://tztime.rubyforge.org]
+
+This library provides time zone localization and conversion with a
+Time-compatible class. The time zone information is provided by the tzinfo gem.
+
+While this library is not designed exclusively for Rails, it can be used to
+make time zone aware applications in Rails. See the usage examples below to
+see how you might use this in a Rails project.
+
+=== Requirements
+
+* tztime[http://tzinfo.rubyforge.org]
+
+
+=== Install
+
+* sudo gem install tztime
+
+
+=== Usage
+
+This demonstrates some common uses of the library. Most of these examples
+demonstrate the use of the Builder class. The Builder creates instances of
+LocalTime. These can be used instead of Time instances, and they therefore have
+the capabilities of the Time class. They also have a few additional methods
+which may be useful. See TZTime::LocalTime for more information.
+
+  # load the tztime and tzinfo libraries
+  require 'tztime'
+
+  # Create a local time builder to generate and convert localized time objects
+  builder = TZTime::LocalTime::Builder.new('America/Los_Angeles')
+
+  # get the current date
+  builder.today # => 2008-04-10 00:00:00 PDT
+
+  # get the current date and time
+  builder.now # => 2008-04-10 15:54:52 PDT
+
+  # create a specific time value
+  time = builder.local(2008, 4, 10, 11, 30)
+  p time # => 2008-04-10 11:30:00 PDT
+
+  # convert the time into utc Time instance
+  time = builder.utc(2008, 4, 10, 10, 30)
+  p time # => 2008-04-10 07:30:00 PDT
+  p time.getutc # => Thu Apr 10 11:30:00 UTC 2008
+
+  # use a Time instance to create a LocalTime instance (not a conversion)
+  time = Time.now # => Thu Apr 10 18:55:21 -0400 2008
+  p builder.at(time) # => 2008-04-10 18:55:21 PDT
+
+  # use a Time instance to create a LocalTime instance converted from the time
+  # zone of the Time instance
+  time = Time.now # => Thu Apr 10 18:56:16 -0400 2008
+  p builder.convert(time) # => 2008-04-10 15:56:16 PDT
+
+  # convert it using a specific time zone
+  p builder.convert(time, 'America/Chicago') # => 2008-04-10 16:56:16 PDT
+
+For more information about the Builder class, see TZTime::LocalTime::Builder.
+
+
+=== Usage in ActiveRecord
+
+Assuming a +users+ table with this information as a minimum:
+
+  class CreateUsers < ActiveRecordMigration
+    def self.up
+      create_table :users do |t|
+        t.string :time_zone
+        t.timestamps
+      end
+    end
+  end
+
+
+You need to require the 'tztime/active_record' library. This can be done in the
+environment file or in the model that needs the time zone capabilities. Here,
+we will require it in the model. Note that 'tztime' does not need to be required
+seperately; 'tztime/active_record' will handle requiring it.
+
+The User model:
+  
+  require 'tztime/activerecord'
+
+  class User < ActiveRecord::Base
+    acts_as_time_zone
+  end
+
+
+Create an instance and get the current date and time
+
+  user = User.create :time_zone => 'Eastern Time (US & Canada)'
+  user.time_zone_builder.now
+  user.created_at # => time in UTC
+  user.local_created_at # => time in EDT or EST
+
+
+Use an instance to convert some other time:
+
+  entry = Entry.find(...)
+  user.time_zone_builder.convert(entry.created_at)
+  # because all times in ActiveRecord will now be in UTC, this works too
+  user.time_zone_builder.at_utc(entry.created_at)
+
+=== Todo
+
+* Hook into DataMapper and Sequel ORM libraries
+
+
+=== License
+
+(The MIT License)
+
+Copyright (c) 2008 Jeremy Larkin
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

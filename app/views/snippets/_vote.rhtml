@@ -1,0 +1,13 @@
+<span id="votes<%= voteable.id %>">
+
+<% if logged_in? %>
+ 
+  this is <%= link_to_remote "[true]", :update=>"vote", :url => { :action=>"vote",  :id=>voteable.id, :vote=>"for"} %>   
+  | this is <%= link_to_remote "[nonsense]", :update=>"vote", :url => { :action=>"vote", :id=>voteable.id, :vote=>"against"} %>  
+
+
+<% else %>
+	: Log in to vote
+<% end %>
+
+</span>

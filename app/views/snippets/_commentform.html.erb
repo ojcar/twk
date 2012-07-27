@@ -1,0 +1,4 @@
+<% form_for :comment, :url=> { :action=> "add_comment", :id => @snippet.id } do |f| %>
+    <%= f.text_area "comment", :rows=>5, :cols=>35 %> <br><br>
+    <%= submit_tag "Add Comment" %>
+<% end -%>

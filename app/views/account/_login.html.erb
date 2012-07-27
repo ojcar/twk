@@ -1,0 +1,6 @@
+<% form_tag '/account/login' do -%>
+login: <%= text_field_tag 'login','', :class => 'campo' %> pass: <%= password_field_tag 'password','', :class => 'campo' %> [<%= link_to '?', forgot_url %>]
+&nbsp;
+<%= check_box_tag 'remember_me' %>
+<%= submit_tag "Login" %>
+<% end -%>

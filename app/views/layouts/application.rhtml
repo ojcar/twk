@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>thisweknow.net - collective wisdom</title>
+<%= stylesheet_link_tag 'main' %>
+<%= javascript_include_tag :defaults %>
+<%= yield :head %>
+</head>
+
+<body>
+<div class="container">
+	
+	<div class="span-5 logo"><a href="http://thisweknow.net"><span>thisweknow.net</span></a></div> 
+	<div class="span-18 header"> 
+
+
+<!-- 			<h3>Collective wisdom, accepted without proof or consequence.</h3> -->
+
+			<!-- WHAT IT IS -->
+			<!-- 
+			<p><strong>What does it do?</strong> you know those white stains that sometimes show up in your fingernails? I always believe that you'd get one for every lie you told. My mother used to tell me that I should not eat a banana and watermelon <i>simultaneously</i>, otherwise I'll die. thisweknow.net is a collection of the truths that you believe, the stuff you're absolutely certain even though you have no proof behind it. (I never did eat banana and watermelon). Create an account, start posting the things you know, browse for what others are saying, vote if you agree, vote if you don't.</p>
+			-->
+
+			<div class="inputbox">
+				
+				<% if logged_in? %>
+
+				Hi <%= link_to current_user.login, {:controller => 'user', :action => current_user.login } %>   
+				<%= link_to 'Edit your account', {:controller => 'users', :action => 'edit'} %>  
+				<%= link_to 'Logout', {:controller => 'account', :action => 'logout'}, :method => 'post' %>
+
+				<% else %>
+					<table>
+					<tr><td valign="middle" width="25%">
+						<%= render :partial => 'account/login' %>
+					</td><td>
+						<h3>or <%= link_to 'Sign Up', {:controller => 'account', :action => 'signup'} %> to post and vote.</h3>
+					</td>
+					</tr>
+					</table>
+				
+				<% end %>
+				
+				
+				<% if flash[:notice] -%>
+				<div id="notice"><%= flash[:notice] %></div>
+				<% end -%>
+				<% if flash[:error] -%>
+				<div id="error"><%= flash[:error] %></div>
+				<% end -%>
+				
+				
+				<br />
+
+				<% if logged_in? %>
+					<%= render(:partial=>"snippets/createnewtruth") %>
+				<% end %>
+				
+				
+			</div>
+	</div>
+
+
+
+
+
+
+
+
+<%= yield %>
+
+
+
+
+		
+ 	<div class="span-24">
+ 		<a href="/">thisweknow.net</a>: collective wisdom, accepted without proof or consequence. <a href="#">Contact</a>
+ 	</div>
+ </div>
+ 
+
+
+</body></html>

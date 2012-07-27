@@ -1,0 +1,7 @@
+<h2>Edit the truth</h2>
+<%= error_messages_for :snippet %>
+<% form_for :snippet, :url => snippet_url(@snippet), :html => {:method=>:put} do |f| -%>
+  <p>Content:<br /><%= f.text_area :content, :rows => 20, :cols => 60 %></p>
+  <%= submit_tag 'Save' %> or <%= link_to 'cancel', snippets_url %>
+<% end -%>
+

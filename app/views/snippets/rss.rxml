@@ -1,0 +1,22 @@
+xml.instruct!
+
+xml.rss "version" => "2.0", "xmlns:dc" => "http://purl.org/dc/elements/1.1/" do
+  xml.channel do
+    
+    xml.title  "This is what we know"
+    xml.link  "thisweknow.net"
+    xml.pubDate CGI.rfc1123_date @snippets.first.created_at if @snippets.any?
+    xml.description "The truth about everything"
+    
+    @snippets.each do |snippet|
+      xml.item do
+        xml.title  snippet.title
+        xml.link  show_snippet_url(snippet)
+        xml.description snippet.content
+        xml.pubDate CGI.rfc1123_date snippet.created_at
+        xml.guid show_snippet_url(snippet)
+        xml.author "#{snippet.user.login}"
+      end
+    end
+  end
+end

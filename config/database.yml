@@ -1,0 +1,23 @@
+development:
+  adapter: mysql
+  database: thiswk_development
+  username: test
+  password: test
+  host: localhost
+#  timeout: 5000
+
+test:
+  adapter: mysql
+  database: thiswktest
+  username: twk
+  password: test
+  host: localhost
+#  timeout: 5000
+
+production:
+  adapter: mysql
+  database: thiswk
+  username: twk
+  password: test
+  host: localhost
+#  timeout: 5000

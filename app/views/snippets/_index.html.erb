@@ -1,0 +1,43 @@
+
+
+
+
+
+	
+<div class="span-24 content">
+
+	<h1 class="truth"><%= link_to @snippet.content, index_url %></h1>
+	<h2>
+		<% unless @snippet.voted_by_user?(current_user) %>
+			<span class="hilite">what do you think?</span> <%= render(:partial=>"vote", :locals=>{:voteable=>@snippet}) %>
+		<% else %>
+			<% if logged_in? and @snippet.voted_yes_by_user?(@snippet.id,current_user) %>
+				[you believe this is true]
+			<% else %>
+				[you believe this is nonsense]
+			<% end %>
+		<% end %>
+	</h2>
+
+</div>
+
+<div class="span-18 meta">	
+			<h3><%= link_to "truth", show_snippet_url(@snippet.id) %>
+			posted by <%= link_to @snippet.user.login, :controller => 'user', :action => @snippet.user.login %> 
+	        <% unless @snippet.category.name.nil? %>
+	        in <%= link_to @snippet.category.name, show_category_url(@snippet.category.name) %>
+	        <% end %></h3>
+</div>
+
+<div class="span-5 append-1 stats last">
+		we believe it 
+		<h1>
+		<% if @snippet.votes_count != 0 %>
+			<%= (@snippet.votes_for / @snippet.votes_count)*100 %>%
+		<% else %>
+			0%
+		<% end %></h1> 
+		of the time
+</div>
+
+  

@@ -1,0 +1,8 @@
+<% form_for :newsnippet, :url => { :action => "create" } do |f| -%>
+  <%= f.text_area :content, :rows => 1, :cols => 10 %><br />
+  <span style="font-size: smaller;"><%= check_box("newsnippet", "is_prediction") %> This is a prediction, expires <%= text_field_tag 'newsnippet[expiration]','',:class=>'campo' %> (enter a date)</span>
+  <br />
+ <%= collection_select("newsnippet", "category_id" , Category.find(:all) , "id", "name", {:include_blank => 'Select Category'}) %>
+  <%= submit_tag 'Save' %>
+
+<% end -%>

@@ -1,0 +1,8 @@
+<div class="post">
+  <h1>
+	<%= link_to @snippet.content, random_url %>
+  </h1>
+  <div class="meta">
+   <%= render(:partial=>"vote", :locals=>{:voteable=>@snippet}) %>    
+    </div>
+</div>

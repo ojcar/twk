@@ -1,0 +1,15 @@
+<% @snippets.each do |snippet| %>
+  <div class="post">
+    <%= snippet.content %>
+    <div class="meta">
+      <%= snippet.how_truthful %> /
+      created on: <%= snippet.created_at %> /
+      by <%= link_to snippet.user.login, :controller => 'user', :action => snippet.user.login %> /
+      in <%= snippet.category.name %> /
+      Link: <%= link_to snippet.id, :action => 'show', :id => snippet.id %> |
+      <%= render(:partial=>"vote", :locals=>{:voteable=>snippet}) %>
+      total: (<%= snippet.votes_count %>); en contra: (<%= snippet.votes_against %>; a favor: (<%= snippet.votes_for %>)
+      graph: <%= sparkline_tag [snippet.votes_count], :type => 'pie', :diameter => 20, :share_color => 'green' %>
+    </div>
+  </div>
+<% end %>

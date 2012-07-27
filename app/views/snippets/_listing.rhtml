@@ -1,0 +1,16 @@
+<% @snippets.each do |snippet| %>
+
+<div class="onetruth">
+	<h1><%= snippet.content %></h1>
+	<div class="onemeta">
+		<%= link_to "truth", show_snippet_url(snippet.id) %>
+		posted by <%= link_to snippet.user.login, :controller => 'user', :action => snippet.user.login %> 
+        <% unless snippet.category.name.nil? %>
+        in <%= link_to snippet.category.name, show_category_url(snippet.category.name) %>
+        <% end %>
+	</div>
+</div>
+
+<% end %>
+
+<%= will_paginate(@snippets) %>

@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>this we know</title>
+<%= stylesheet_link_tag 'main' %>
+<%= javascript_include_tag :defaults %>
+<%= yield :head %>
+</head>
+
+<body>
+<div id="container">
+	
+	
+	
+	
+	
+	
+	
+	
+	<div id="sidebar">
+		<a href="/"><img src="/images/thiswk_logo.gif" border="0" /></a> <br/>
+		<span style="text-align: center;"><a href="http://engenii.wufoo.com/forms/thisweknownet/">Feedback</a></span>
+		<!-- 
+		<p><strong>What does it do?</strong> you know those white stains that sometimes show up in your fingernails? I always believe that you'd get one for every lie you told. My mother used to tell me that I should not eat a banana and watermelon <i>simultaneously</i>, otherwise I'll die. thisweknow.net is a collection of the truths that you believe, the stuff you're absolutely certain even though you have no proof behind it. (I never did eat banana and watermelon). Create an account, start posting the things you know, browse for what others are saying, vote if you agree, vote if you don't.</p> -->
+	</div>
+
+<div id="content">
+	<div id="banner">
+		<% if logged_in? %>
+		<div id="loggedin">
+		Hi <%= link_to current_user.login, {:controller => 'user', :action => current_user.login } %>   
+		<%= link_to 'Edit your account', {:controller => 'users', :action => 'edit'} %>  
+		<%= link_to 'Logout', {:controller => 'account', :action => 'logout'}, :method => 'post' %>
+		</div>
+		<% else %>
+		<span id="login"><%= render :partial => 'account/login' %></span> or <%= link_to 'Sign Up', {:controller => 'account', :action => 'signup'} %>
+		<% end %>
+	</div>
+	
+
+<% if flash[:notice] -%>
+<div id="notice"><%= flash[:notice] %></div>
+<% end -%>
+<% if flash[:error] -%>
+<div id="error"><%= flash[:error] %></div>
+<% end -%>
+
+
+
+
+
+<%= yield %>
+
+</div> <!-- closes content div -->
+
+
+
+</div> 
+
+</body></html>
